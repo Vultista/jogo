@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Aventura Apocalíptica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+        }
+        button {
+            background-color: #ffcc00;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            color: #222;
+        }
+        button:hover {
+            background-color: #ffc107;
+        }
+        .scene {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo de Aventura Apocalíptica</h1>
+    <div class="scene" id="scene"></div>
+    <div id="choices"></div>
+
+    <script>
+        let currentScene;
+
+        function startGame() {
+            currentScene = "makeChoice";
+            render();
+        }
+
+        function render() {
+            const sceneElement = document.getElementById("scene");
+            const choicesElement = document.getElementById("choices");
+            sceneElement.innerHTML = "";
+            choicesElement.innerHTML = "";
+
+            if (currentScene === "makeChoice") {
+                sceneElement.innerHTML = "<p>Você está em uma cidade cheia de zumbis e mutantes.</p>";
+                sceneElement.innerHTML += "<p>Rick e Michonne precisam encontrar um abrigo seguro. O que você fará?</p>";
+                choicesElement.innerHTML += '<button onclick="findShelterWithRick()">Encontrar abrigo e proteger Rick </button>';
+                choicesElement.innerHTML += '<button onclick="findShelterWithMichonne()">Encontrar abrigo e proteger Michonne </button>';
+            } else if (currentScene === "findShelterWithRick") {
+                sceneElement.innerHTML = "<p>Você encontrou um prédio abandonado para se refugiar.</p>";
+                sceneElement.innerHTML += "<p>Durante um ataque de zumbis, Rick elimina todos.</p>";
+                sceneElement.innerHTML += "<p>Michonne sobrevive.</p>";
+                sceneElement.innerHTML += "<p>Escolha uma ação:</p>";
+                choicesElement.innerHTML += '<button onclick="exploreUpperFloor()">Explorar o andar superior do prédio</button>';
+                choicesElement.innerHTML += '<button onclick="makeFire()">Fazer uma fogueira para se aquecer</button>';
+            } else if (currentScene === "findShelterWithMichonne") {
+                sceneElement.innerHTML = "<p>Você encontrou um prédio abandonado para se refugiar.</p>";
+                sceneElement.innerHTML += "<p>Enquanto exploram, um grupo de zumbis os ataca. Rick sente uma estranha sensação e se torna imortal aos zumbis!</p>";
+                sceneElement.innerHTML += "<p>Michonne também sobrevive e juntos eles devem continuar a lutar neste mundo devastado.</p>";
+                sceneElement.innerHTML += "<p>Escolha uma ação:</p>";
+                choicesElement.innerHTML += '<button onclick="exploreUpperFloor()">Explorar o andar superior do prédio</button>';
+                choicesElement.innerHTML += '<button onclick="makeFire()">Fazer uma fogueira para se aquecer</button>';
+            } else if (currentScene === "victory") {
+                sceneElement.innerHTML = "<p>Rick e Michonne conseguiram escapar e encontraram um lugar seguro para se abrigar. Eles sobreviveram juntos!</p>";
+                choicesElement.innerHTML = '<button onclick="startGame()">Jogar Novamente</button>';
+            }
+        }
+
+        function findShelterWithRick() {
+            currentScene = "findShelterWithRick";
+            render();
+        }
+
+        function findShelterWithMichonne() {
+            currentScene = "findShelterWithMichonne";
+            render();
+        }
+
+        function exploreUpperFloor() {
+            sceneEnd("Rick e Michonne exploram o andar superior e encontram suprimentos. Eles conseguem se estabelecer em um novo abrigo seguro.");
+        }
+
+        function makeFire() {
+            sceneEnd("Rick e Michonne fazem uma fogueira e se aquecem, prontos para enfrentar os desafios que virão.");
+        }
+
+        function sceneEnd(message) {
+            const sceneElement = document.getElementById("scene");
+            const choicesElement = document.getElementById("choices");
+            sceneElement.innerHTML = `<p>${message}</p>`;
+            choicesElement.innerHTML = '<button onclick="startGame()">Jogar Novamente</button>';
+        }
+
+        // Iniciar o jogo
+        startGame();
+    </script>
+</body>
+</html>
